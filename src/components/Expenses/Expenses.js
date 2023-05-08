@@ -4,6 +4,7 @@ import { useState } from 'react';
 import ExpensesFilter from './ExpenseFilter';
 import ExpenseItem from './ExpenseItem';
 import './Expenses.css';
+import ExpenseChart from './ExpenseChart';
 
 export default function Expenses(props) {
 
@@ -15,24 +16,27 @@ export default function Expenses(props) {
         )
     })
 
-         
-           
-        
 
 
-function onFilterChangeHandler(selectedYear) {
-    setSelectedYear(selectedYear);
-}
 
-return (
-    <div className='expenses'>
-        <ExpensesFilter selectedYear={selectedYear} onFilterChange={onFilterChangeHandler} />
-        {filteredExpenses.map(expense => <ExpenseItem
-            key={expense.id}
-            title={expense.title}
-            amount={expense.amount}
-            date={expense.date}
-        />)}
-    </div>
-)
+
+    function onFilterChangeHandler(selectedYear) {
+        setSelectedYear(selectedYear);
+    }
+
+    return (
+        <div className='expenses'>
+            <ExpensesFilter selectedYear={selectedYear} onFilterChange={onFilterChangeHandler} />
+            <ExpenseChart expenses={filteredExpenses} />
+            {filteredExpenses.length === 0 ? <p>No expenses are in this month</p> :
+                filteredExpenses.map(expense => <ExpenseItem
+                    key={expense.id}
+                    title={expense.title}
+                    amount={expense.amount}
+                    date={expense.date}
+                />)
+            }
+
+        </div>
+    )
 }
